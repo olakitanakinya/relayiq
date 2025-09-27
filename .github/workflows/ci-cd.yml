@@ -1,8 +1,10 @@
+---
 name: CI/CD
 
 on:
   workflow_run:
-    workflows: ["Syntax Check All Scripts and YAML"]
+    workflows:
+      - "Syntax Check All Scripts and YAML"
     types:
       - completed
 
@@ -20,6 +22,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/relayiq-backend:latest backend
-      - run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/relayiq-backend:latest
-
+      - run: |
+          docker build \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/relayiq-backend:latest \
+            backend
+      - run: |
+          docker push \
+            ${{ secrets.DOCKERHUB_USERNAME }}/relayiq-backend:latest

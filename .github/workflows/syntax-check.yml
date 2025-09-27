@@ -1,10 +1,13 @@
+---
 name: Syntax Check All Scripts and YAML
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - "main"
   pull_request:
-    branches: [ main ]
+    branches:
+      - "main"
 
 jobs:
   syntax-check:
@@ -15,7 +18,8 @@ jobs:
       # Bash scripts
       - name: Check Bash scripts
         run: |
-          find . -type f -name "*.sh" -print0 | while IFS= read -r -d '' file; do
+          find . -type f -name "*.sh" -print0 | \
+          while IFS= read -r -d '' file; do
             echo "Checking $file..."
             bash -n "$file"
           done
@@ -23,7 +27,8 @@ jobs:
       # Python scripts
       - name: Check Python scripts
         run: |
-          find . -type f -name "*.py" -print0 | while IFS= read -r -d '' file; do
+          find . -type f -name "*.py" -print0 | \
+          while IFS= read -r -d '' file; do
             echo "Checking $file..."
             python -m py_compile "$file"
           done
@@ -31,7 +36,8 @@ jobs:
       # PHP scripts
       - name: Check PHP scripts
         run: |
-          find . -type f -name "*.php" -print0 | while IFS= read -r -d '' file; do
+          find . -type f -name "*.php" -print0 | \
+          while IFS= read -r -d '' file; do
             echo "Checking $file..."
             php -l "$file"
           done
@@ -41,7 +47,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y yamllint
-          find . -type f \( -name "*.yml" -o -name "*.yaml" \) -print0 | while IFS= read -r -d '' file; do
+          find . -type f \( -name "*.yml" -o -name "*.yaml" \) -print0 | \
+          while IFS= read -r -d '' file; do
             echo "Linting $file..."
             yamllint "$file"
           done
