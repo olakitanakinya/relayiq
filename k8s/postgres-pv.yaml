@@ -8,6 +8,6 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/postgres
   persistentVolumeReclaimPolicy: Delete
-  volumeMode: Filesystem
-  emptyDir: {}
