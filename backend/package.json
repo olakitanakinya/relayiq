@@ -1,5 +1,5 @@
 {
-  "name": "mini-relayiq-backend",
+  "name": "relayiq-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
