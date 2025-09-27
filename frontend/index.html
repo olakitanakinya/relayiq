@@ -11,21 +11,31 @@
   <script type="text/javascript">
     const { useState, useEffect } = React;
 
+    const BACKEND_URL = "http://backend:4000"; // Point to your backend service
+
     function App() {
       const [handovers, setHandovers] = useState([]);
       const [title, setTitle] = useState("");
       const [details, setDetails] = useState("");
 
       const fetchHandovers = async () => {
-        const res = await axios.get("/api/handovers");
-        setHandovers(res.data);
+        try {
+          const res = await axios.get(`${BACKEND_URL}/handovers`);
+          setHandovers(res.data);
+        } catch (err) {
+          console.error("Error fetching handovers:", err);
+        }
       };
 
       const addHandover = async () => {
-        await axios.post("/api/handovers", { title, details });
-        setTitle("");
-        setDetails("");
-        fetchHandovers();
+        try {
+          await axios.post(`${BACKEND_URL}/handovers`, { title, details });
+          setTitle("");
+          setDetails("");
+          fetchHandovers();
+        } catch (err) {
+          console.error("Error adding handover:", err);
+        }
       };
 
       useEffect(() => { fetchHandovers(); }, []);
@@ -41,9 +51,7 @@
           }),
           React.createElement("button", { onClick: addHandover }, "Add Handover"),
           React.createElement("ul", null,
-            handovers.map(h => React.createElement("li", { key: h.id },
-              `${h.title}: ${h.details}`
-            ))
+            handovers.map(h => React.createElement("li", { key: h.id }, `${h.title}: ${h.details}`))
           )
         )
       );
@@ -53,4 +61,3 @@
   </script>
 </body>
 </html>
-
