@@ -1,11 +1,10 @@
----
 name: CI/CD to Kubernetes
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch: true  # explicitly boolean
+  workflow_dispatch:   # <-- no 'true', just the key
 
 jobs:
   build-and-deploy:
