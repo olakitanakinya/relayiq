@@ -6,26 +6,15 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels: {app: backend}
+    matchLabels:
+      app: backend
   template:
     metadata:
-      labels: {app: backend}
+      labels:
+        app: backend
     spec:
       containers:
         - name: backend
-          image: olakitanakinya/relayiq-backend:latest
+          image: <DOCKERHUB_USERNAME>/relayiq-backend:latest  # Replace
           ports:
             - containerPort: 4000
-          env:
-            - name: DATABASE_URL
-              value: postgres://postgres:password@postgres:5432/relayiq
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-spec:
-  type: ClusterIP
-  selector: {app: backend}
-  ports:
-    - port: 4000
