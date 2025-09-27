@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: backend
-          image: <DOCKERHUB_USERNAME>/relayiq-backend:latest  # Replace
+          image: olakitanakinya/relayiq-backend:latest  # Replace
           ports:
             - containerPort: 4000
