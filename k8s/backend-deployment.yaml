@@ -15,6 +15,17 @@ spec:
     spec:
       containers:
         - name: backend
-          image: olakitanakinya/relayiq-backend:latest  # Replace
+          image: olakitanakinya/relayiq-backend:latest
           ports:
             - containerPort: 4000
+          env:
+            - name: DB_HOST
+              value: "postgres"        # Kubernetes Service name for Postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASSWORD
+              value: "password"
+            - name: DB_NAME
+              value: "relayiq"
