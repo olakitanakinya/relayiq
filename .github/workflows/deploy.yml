@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:   # <-- Added to allow manual trigger
+  workflow_dispatch:   # <-- Allows manual trigger
 
 jobs:
   build-and-deploy:
@@ -37,9 +37,14 @@ jobs:
           docker push \
             ${{ secrets.DOCKERHUB_USERNAME }}/relayiq-frontend:latest
 
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG_CONTENT }}" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
       - name: Deploy to Cluster
         run: |
-          export KUBECONFIG=/etc/kubernetes/admin.conf
           kubectl apply -f k8s/postgres.yaml
           kubectl apply -f k8s/backend-deployment.yaml
           kubectl apply -f k8s/backend-service.yaml
