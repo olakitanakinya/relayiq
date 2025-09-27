@@ -27,6 +27,8 @@ spec:
       containers:
         - name: postgres
           image: postgres:15
+          ports:
+            - containerPort: 5432
           env:
             - name: POSTGRES_DB
               value: "relayiq"
@@ -37,13 +39,6 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-storage
-          command:
-            - sh
-            - -c
-            - |
-              mkdir -p /var/lib/postgresql/data && \
-              chown 1000:1000 /var/lib/postgresql/data && \
-              exec docker-entrypoint.sh postgres
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
@@ -59,3 +54,4 @@ spec:
     app: postgres
   ports:
     - port: 5432
+      targetPort: 5432

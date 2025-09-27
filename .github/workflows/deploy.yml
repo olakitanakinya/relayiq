@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:   # <-- Allows manual trigger
+  workflow_dispatch: true  # explicitly boolean
 
 jobs:
   build-and-deploy:
@@ -43,8 +43,14 @@ jobs:
           echo "${{ secrets.KUBECONFIG_CONTENT }}" > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
 
+      - name: Create Postgres PV folder
+        run: |
+          sudo mkdir -p /mnt/data/postgres
+          sudo chown 1000:1000 /mnt/data/postgres
+
       - name: Deploy to Cluster
         run: |
+          kubectl apply -f k8s/postgres-pv.yaml
           kubectl apply -f k8s/postgres.yaml
           kubectl apply -f k8s/backend-deployment.yaml
           kubectl apply -f k8s/backend-service.yaml
